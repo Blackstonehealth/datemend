@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self' data:; script-src 'none'; connect-src 'none'; font-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Datemend: put dates, places and captions back on your Snapchat Memories export (free preview)</title>
+<meta name="description" content="Free preview of Datemend, a browser-based tool that writes capture dates, locations and photo captions back onto the files in a Snapchat Memories data export. Runs on your computer; your files are not uploaded. Tested on sample exports only so far.">
+<link rel="stylesheet" href="landing.css">
+</head>
+<body>
+<main>
+<p class="brand">Datemend</p>
+<h1>Put the dates, places and captions back on your Snapchat Memories export.</h1>
+<p class="lead">Datemend is a free preview tool that runs in your web browser. You give it the <code>mydata~…zip</code> file(s) you downloaded from Snapchat; it writes each Memory's capture date and (when your export has coordinates) location back into the photo or video, merges photo captions and stickers, sorts everything into year/month folders, and gives you a report of what it did and what it could not do.</p>
+
+<p>
+<a class="btn" href="app/">Open the free preview</a>
+<a class="btn alt" href="#sample">Try it on a sample first</a>
+</p>
+
+<section class="card warn" aria-label="Honest status">
+<strong>Read this first: what “preview” means.</strong>
+<ul>
+<li><strong>Tested on sample exports only.</strong> Snapchat does not publish the format of its data export. Datemend was built from third-party descriptions of it and tested with sample exports we generated ourselves (no real photos or personal data). It has <strong>not yet been verified against a real, current Snapchat export</strong>, and Snapchat can change the format at any time.</li>
+<li><strong>Keep your original export</strong> until you have opened the report and spot-checked the result in your photo app.</li>
+<li><strong>There is nothing to buy today.</strong> No checkout, no account, no email sign-up. The preview may change, or be replaced by a paid version later.</li>
+</ul>
+</section>
+
+<h2>Is Snapchat deleting my Memories?</h2>
+<p>Some third-party sites have claimed Memories will be deleted on specific dates. Snapchat's own help page says otherwise. This is the wording as we read it on <strong>October 18, 2026</strong>, from <a href="https://help.snapchat.com/hc/en-us/articles/41291271694228-How-do-I-manage-my-Memories-storage" rel="noopener noreferrer">help.snapchat.com: “How do I manage my Memories storage?”</a>:</p>
+<blockquote>
+<p><strong>Will Snapchat delete my Memories if I do not upgrade?</strong><br>No. Snapchat will not automatically delete your Memories because you do not upgrade.</p>
+<p>Starting in January 2027, Memories that are more than one year old and are not part of your oldest 5GB of Memories will be archived and remain stored on Snapchat. You will continue to have access to Memories saved within the last year, as well as your oldest 5GB of Memories.</p>
+<p>Archived Memories will appear as thumbnails in the app, but you will need to upgrade your storage to open, edit, or share them. You will have the options of subscribing or downloading your Memories to access them outside the app.</p>
+</blockquote>
+<p class="small muted">Snap can change that page. Check it yourself; our copy of the text is only a snapshot from the date above. Snap lists a 100GB Memories-only plan for $1.99/month or $20/year in the US (“Prices may vary”). Whether you pay Snap, download your Memories, or both is your call. Datemend only helps with the “download” route: a Snapchat export on its own tends to lose the context that makes photos usable in a photo library.</p>
+
+<h2>What Datemend does, and what it does not</h2>
+<table>
+<thead><tr><th>Does (in the sample tests)</th><th>Does not (yet)</th></tr></thead>
+<tbody>
+<tr><td>Reads several export zip parts in any order, without unzipping them to disk, and names any missing part.</td><td>Has not been run on a real current export. Match quality on real data is unknown.</td></tr>
+<tr><td>Writes capture date/time (and a time-zone offset) into photo EXIF without re-encoding the photo, when the photo has no caption to merge.</td><td>Does not burn captions or stickers into <em>videos</em>; video overlays are saved as separate files.</td></tr>
+<tr><td>Writes GPS into photos and videos only when your export contains coordinates and the file-to-entry pairing is certain. Otherwise it leaves location out and says so.</td><td>Does not turn place names into coordinates, and does not look up the time zone from GPS. You choose the time zone.</td></tr>
+<tr><td>Merges a photo with its separate caption/sticker overlay (the merged photo is re-saved as JPEG at quality 95).</td><td>Does not join split video clips or convert HEVC video to H.264.</td></tr>
+<tr><td>Sets video container dates, plus location tags in the formats Apple Photos and Google Photos are documented to read (not yet tested in either app).</td><td>WebP and HEIC photos are copied unchanged and flagged; their metadata is not rewritten.</td></tr>
+<tr><td>Saves to a zip (Info-ZIP <code>unzip</code> restored each file's modified time in our tests; other unzip tools may differ), or to a folder in desktop Chrome, Edge or Opera (only Chrome has been tested), with <code>report.html</code> and <code>report.csv</code>.</td><td>Folder output cannot set file modified times (a browser limit). Not tested in Firefox or Safari. Not for phones.</td></tr>
+<tr><td>Isolates failures: one bad file is reported and the run continues. A Stop button ends the run cleanly.</td><td>No resume after closing the tab. Memories that Snapchat did not include in your export cannot be recovered by any tool.</td></tr>
+</tbody>
+</table>
+<p class="small muted">Because Snapchat's export has no per-item ID, Datemend pairs files with entries by day and photo/video type. When several Memories share a day it flags them as “ambiguous”, and it never writes GPS for an ambiguous pairing.</p>
+
+<h2>How to use it</h2>
+<ol>
+<li><strong>Request your data from Snapchat.</strong> Per Snap's help article “How do I download my data from Snapchat?” (read October 18, 2026): go to accounts.snapchat.com, open <em>My Data</em>, switch on “Export your Memories” (and choose “Request Only Memories” if you only want Memories). The article says “We strive to deliver data within 7 days, but large downloads can take longer” and “Try downloading your data from a computer rather than a mobile device.” Third-party reports say the date/location file (<code>json/memories_history.json</code>) only appears if you also tick the option to export JSON files, so tick it if you see it. Do not tick location history or chats unless you want them.</li>
+<li><strong>Download every zip part</strong> (<code>mydata~…zip</code>, <code>-2.zip</code>, …). Do not rename or extract them.</li>
+<li><strong><a href="app/">Open Datemend</a></strong> in desktop Chrome (the only browser we have tested; Edge should work but is untested), drop the zip file(s), read the “What was found” summary, pick a time zone and output, and run it.</li>
+<li><strong>Open <code>report.html</code></strong> in the result. Check counts of matched, ambiguous, unmatched and failed items, then spot-check a few files in your photo app before deleting anything.</li>
+</ol>
+<p class="small muted">Datemend never asks for your Snapchat username or password, never connects to Snapchat, and never opens the download links that may appear inside your export.</p>
+
+<h2 id="privacy">Privacy: your files stay on your computer</h2>
+<div class="card">
+<p><strong>Your photos, videos and export data are read by your browser on your own device and are not uploaded anywhere.</strong> The Datemend page ships with a security policy (<code>connect-src 'none'</code>) that tells your browser to block it from making any network connection, and its code contains no analytics, trackers, cookies, local storage or fetch calls. Automated tests check this, including a headless-browser run that confirmed the policy is enforced.</p>
+<p><strong>What we receive:</strong> nothing. There is no account, no sign-up, no server of ours, and no payment. Datemend does not log what is inside your files.</p>
+<p><strong>What our host sees:</strong> this site is hosted on GitHub Pages. When you load a page, GitHub, like any web host, receives your browser's request (for example your IP address) under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener noreferrer">GitHub's privacy statement</a>. That happens when the page loads, before you choose any file.</p>
+<p><strong>How you can check:</strong> open your browser's developer tools, watch the Network tab while you process a sample, and you should see no requests after the page has loaded, other than any download you click. You can also take the page offline: download the offline copy below, or switch off your internet after the page loads: it is designed to keep working offline, but we have not tested that in every browser.</p>
+<p><strong>Your report</strong> is generated on your device and may contain your file names and locations. Treat it as private. Do not paste it, or any file from your export, into a public issue or forum.</p>
+</div>
+
+<h2 id="sample">Try it on a sample (no real data needed)</h2>
+<p>This is a tiny made-up export: 5 Memories with generated gradient images and a short generated test video, shaped like the format third parties describe. It contains no real photos or personal data. Download it, open the <a href="app/">preview</a>, and drop it in to see what the diagnostic, options and report look like.</p>
+<p><a class="btn alt" href="download/sample/mydata~SYN.zip" download>Download the sample export (25 KB)</a></p>
+
+<h2>Offline copy (to inspect or run without this site)</h2>
+<p>The same files as the hosted preview, as a zip: plain HTML and JavaScript, no build step, no dependencies, so you can read every line. Browsers do not run ES modules from a double-clicked file, so it includes a 20-line local server (<code>node serve.mjs</code>, Node 20+) and the note that <code>python3 -m http.server</code> also works.</p>
+<p><a class="btn alt" href="download/datemend-0.1.0-preview.zip" download>Download datemend-0.1.0-preview.zip (44 KB)</a></p>
+<p class="small muted">SHA-256: <code>e184faa15832bdfa523a1913644d3d89b79a7c709bf605bc9f9befbd7d60d213</code></p>
+
+<h2>Questions</h2>
+<details><summary>Is this free?</summary><p>The preview is free to use. There is no checkout and nothing to buy. If a paid version is added later, this page will say so plainly and will not imply you already paid for anything.</p></details>
+<details><summary>Do you upload my photos?</summary><p>No. See the privacy section above. The page is built so that your browser blocks it from sending data anywhere.</p></details>
+<details><summary>Will my original export be changed?</summary><p>No. Datemend reads your zip files and writes new files to the place you choose. Your downloaded export is not modified.</p></details>
+<details><summary>My photos still show the wrong date in my photo app.</summary><p>Read <code>report.html</code> first: it lists items with no date, items it could not pair, and items it left unchanged on purpose (WebP/HEIC photos, fragmented videos). Then check the time-zone choice. Third-party reports say Snapchat stores times in UTC; the zone you pick decides the local time written into each file. Some apps cache old dates until you re-import into a fresh library.</p></details>
+<details><summary>Why is there no location on some Memories?</summary><p>Either your export has no coordinates for them (some reports describe place names only, which Datemend does not convert), or several Memories shared a day and the pairing was ambiguous. In both cases Datemend leaves location out and tells you in the report rather than guess.</p></details>
+<details><summary>Why aren't my video captions burned in?</summary><p>That requires re-encoding video, which this preview does not do. The overlay is saved as a separate image next to the video.</p></details>
+<details><summary>Is it OK to use a tool like this with Snapchat's terms?</summary><p>We are not lawyers and make no claim either way. Datemend only works on a file you downloaded yourself through Snapchat's own My Data feature, on your own device. It never logs in to Snapchat or contacts it. Snap's Terms of Service are between you and Snap; read them if you have concerns.</p></details>
+<details><summary>Whose Memories can I process?</summary><p>Your own, or someone's who has asked you to. Do not use it on someone else's data without their permission.</p></details>
+<details><summary>Do I get a refund?</summary><p>There is nothing to refund: the preview is free and no payments are taken. If a paid version is introduced, its refund terms will be published here before any sale.</p></details>
+<details><summary>Other options?</summary>
+<p>Datemend is not the only tool for this job, and some alternatives are free. According to their own sites on October 18, 2026: <a href="https://github.com/evanbnm/getsnapback" rel="noopener noreferrer">GetSnapBack</a> (free, open source, runs on your computer), <a href="https://github.com/uwuclxdy/exportsnap" rel="noopener noreferrer">exportsnap</a> (open source), and <a href="https://dateback.app/" rel="noopener noreferrer">DateBack</a> (describes itself as free, desktop app for Mac and Windows). There are also paid tools. We have not tested any of them, and we do not know which is best for your export. Datemend runs in the browser with nothing to install; we have not compared it feature by feature with the tools above.</p></details>
+
+<h2>Feedback and bug reports</h2>
+<p>Did it work on a real export? Did it get something wrong? Open an issue on the project's public <a href="https://github.com/Blackstonehealth/datemend/issues" rel="noopener noreferrer">GitHub issues page</a> (needs a free GitHub account). Describe what you saw; <strong>do not attach your photos, your export, or your report</strong>. The most useful thing is the “What was found” summary with any names or places removed.</p>
+
+<footer class="small muted">
+<p>Datemend v0.1.0 (preview). Snapchat text and help-page content last checked October 18, 2026.</p>
+<p><strong>Not affiliated with, endorsed by, or sponsored by Snap Inc.</strong> “Snapchat” and “Snap” are trademarks of Snap Inc., used here only to describe which exports this tool reads.</p>
+<p>Provided as is, with no warranty. Keep a copy of your original export. Preview license (draft; not yet reviewed by a lawyer): see <a href="LICENSE-PREVIEW.txt">LICENSE-PREVIEW.txt</a>.</p>
+</footer>
+</main>
+</body>
+</html>

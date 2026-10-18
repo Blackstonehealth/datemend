@@ -1,0 +1,13 @@
+:root{color-scheme:light dark;--bg:#f6f7f9;--fg:#15171a;--card:#fff;--line:#d9dde3;--accent:#1f5fd6;--warn:#8a5a00;--bad:#a4262c;--ok:#1b6e3c}
+@media (prefers-color-scheme:dark){:root{--bg:#111316;--fg:#e8eaed;--card:#1a1d21;--line:#2c3138;--accent:#7aa7ff;--warn:#e0b050;--bad:#ff8a8a;--ok:#6fd49a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:860px;margin:0 auto;padding:1.5rem 1rem 4rem}h1{margin:.2rem 0}h2{margin:.1rem 0 .6rem;font-size:1.15rem}
+.tag{font-size:.7rem;border:1px solid var(--line);border-radius:999px;padding:.1rem .5rem;vertical-align:middle;color:var(--warn)}
+.lead{font-size:1.05rem}.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1rem 1.1rem;margin:1rem 0}
+.privacy{border-left:4px solid var(--ok)}.draft{border-left:4px solid var(--warn)}
+.drop{border:2px dashed var(--line);border-radius:10px;padding:1.6rem;text-align:center;margin:.6rem 0}.drop.over{border-color:var(--accent);background:rgba(31,95,214,.08)}
+.row{display:flex;gap:.6rem;flex-wrap:wrap;margin:.6rem 0}.btn{display:inline-block;border:1px solid var(--line);border-radius:8px;padding:.5rem .9rem;background:var(--card);color:var(--fg);cursor:pointer;font:inherit}
+.btn:hover{border-color:var(--accent)}.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.btn.ghost{background:transparent}.btn:disabled{opacity:.5;cursor:default}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.8rem}label{display:flex;flex-direction:column;gap:.25rem;font-size:.9rem}select,input[type=text]{font:inherit;padding:.4rem;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg)}
+progress{width:100%;height:1rem}.muted{opacity:.8}.small{font-size:.85rem}table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{border-bottom:1px solid var(--line);padding:.25rem .4rem;text-align:left;vertical-align:top}
+.w{color:var(--warn)}.bad{color:var(--bad)}.ok{color:var(--ok)}ul{padding-left:1.2rem}code{background:rgba(127,127,127,.15);padding:0 .25rem;border-radius:4px}footer{margin-top:1rem}

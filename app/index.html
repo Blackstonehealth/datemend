@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; connect-src 'none'; font-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>Datemend (preview)</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1>Datemend <span class="tag">preview v0.1</span></h1>
+    <p class="lead">Put capture dates, locations and captions back on the photos and videos in your Snapchat data export. Everything runs in this browser tab.</p>
+  </header>
+
+  <section class="card privacy" aria-label="Privacy">
+    <strong>Your files never leave your computer.</strong>
+    This page makes no network requests while you use it (its security policy blocks them). Your export is read by your browser and the result is saved on your device.
+    You can switch off your internet connection after the page loads and it will still work.
+    This tool never opens the download links inside your export and never connects to Snapchat.
+  </section>
+
+  <section class="card draft" aria-label="Status">
+    <strong>Free preview:</strong> this tool has been tested only on sample exports built from third-party reports of the format, not on a real, current Snapchat export. Snapchat can change its export at any time.
+    Keep your original export until you have checked the result, and read the report the tool produces.
+  </section>
+
+  <section class="card" id="step-input">
+    <h2>1. Choose your export</h2>
+    <p>Pick the <code>mydata~…zip</code> file(s) you downloaded from Snapchat (all parts, in any order), or the folder you already unzipped.</p>
+    <div id="drop" class="drop" tabindex="0">Drop zip files or a folder here</div>
+    <div class="row">
+      <label class="btn">Choose zip files<input id="zip-input" type="file" accept=".zip,application/zip" multiple hidden></label>
+      <label class="btn">Choose unzipped folder<input id="folder-input" type="file" webkitdirectory multiple hidden></label>
+      <button id="clear" type="button" class="btn ghost">Clear</button>
+    </div>
+    <p id="picked" class="muted" aria-live="polite"></p>
+  </section>
+
+  <section class="card" id="step-diag" hidden>
+    <h2>2. What was found</h2>
+    <div id="diag" aria-live="polite"></div>
+  </section>
+
+  <section class="card" id="step-options" hidden>
+    <h2>3. Options</h2>
+    <div class="grid">
+      <label>Time zone for dates<select id="opt-tz"></select></label>
+      <label id="tz-custom-wrap" hidden>Time zone name (e.g. Europe/Berlin)<input id="opt-tz-custom" type="text" placeholder="America/Phoenix" autocomplete="off"></label>
+      <label>Folders<select id="opt-layout"><option value="year-month">Year / Month</option><option value="year">Year</option><option value="flat">One folder</option></select></label>
+      <label>Photo captions &amp; stickers<select id="opt-overlay"><option value="merge">Merge into the photo</option><option value="both">Merge, and keep the separate overlay file</option><option value="sidecar">Keep photo and overlay separate</option></select></label>
+      <label>Save as<select id="opt-output"></select></label>
+    </div>
+    <p class="muted small">Third-party reports say Snapchat stores times in UTC. The time zone you pick decides the local time written into each file and its name. Video captions are not burned in by v1; they are kept as separate files.</p>
+    <div class="row">
+      <button id="start" type="button" class="btn primary">Fix my memories</button>
+      <button id="stop" type="button" class="btn ghost" hidden>Stop</button>
+    </div>
+    <progress id="progress" max="1" value="0" hidden></progress>
+    <p id="status" class="muted" aria-live="polite"></p>
+  </section>
+
+  <section class="card" id="step-result" hidden>
+    <h2>4. Result</h2>
+    <div id="result" aria-live="polite"></div>
+  </section>
+
+  <section class="card small muted" id="caps"></section>
+  <footer class="small muted">Not affiliated with, endorsed by, or sponsored by Snap Inc. "Snapchat" is a trademark of Snap Inc., used here only to describe which exports this tool reads.</footer>
+</main>
+<script type="module" src="src/ui/app.js"></script>
+</body>
+</html>
